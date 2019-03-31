@@ -1,0 +1,16 @@
+.babelrc
+.eslintrc
+.gitignore
+.idea
+.npmignore
+.nyc_output
+__tests__
+coverage
+DEV_ONLY
+node_modules
+webpack
+.release-it*
+jest.config.js
+rollup.config.js
+src
+tsconfig.json
