@@ -119,7 +119,9 @@ export function isWeakSet(object: any): object is WeakSet<any> {
 /* ------------- ARRAY EXTENSIONS ------------- */
 
 export function isArrayLike(object: any): boolean {
-  return isObject(object) && typeof object.length === 'number';
+  return (
+    isObject(object) && !isNull(object) && typeof object.length === 'number'
+  );
 }
 
 export function isTypedArray(object: any): boolean {
@@ -180,12 +182,21 @@ export function isNil(object: any): object is void {
 }
 
 export function isPlainObject(object: any): boolean {
-  return (
-    isObject(object)
-    && object !== null
-    // eslint-disable-next-line no-proto
-    && (object.constructor === Object || object.__proto__ === null)
-  );
+  if (!isObject(object) || isNull(object)) {
+    return false;
+  }
+
+  if (Object.getPrototypeOf(object) === null) {
+    return true;
+  }
+
+  let proto = object;
+
+  while (Object.getPrototypeOf(proto) !== null) {
+    proto = Object.getPrototypeOf(proto);
+  }
+
+  return Object.getPrototypeOf(object) === proto;
 }
 
 /* ------------- PROMISE EXTENSIONS ------------- */
